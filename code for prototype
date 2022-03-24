@@ -1,0 +1,64 @@
+// Demo code for Grove - Temperature Sensor V1.1/1.2
+// Loovee @ 2015-8-26
+#include <Servo.h>
+Servo myservo;
+int pos = 0; 
+#include <math.h>
+
+
+
+ 
+const int B = 4275;               // B value of the thermistor
+const int R0 = 100000;            // R0 = 100k
+const int pinTempSensor = A2;     // Grove - Temperature Sensor connect to A0
+ 
+#if defined(ARDUINO_ARCH_AVR)
+#define debug  Serial
+#elif defined(ARDUINO_ARCH_SAMD) ||  defined(ARDUINO_ARCH_SAM)
+#define debug  SerialUSB
+#else
+#define debug  Serial
+#endif
+
+void setup()
+{
+  
+  Serial.begin(9600);
+  myservo.attach(5);
+    
+}
+ 
+void loop()
+{
+  
+  int a = analogRead(pinTempSensor);
+ 
+  float R = 1023.0/a-1.0;
+  R = R0*R;
+
+  float temperature = 1.0/(log(R/R0)/B+1/298.15)-273.15; // convert to temperature via datasheet
+
+  Serial.print("temperature = ");
+  Serial.println(temperature);
+    if(temperature >= 25)
+    {
+      
+      for (pos = 0; pos <= 180; pos += 1) 
+      { // goes from 0 degrees to 180 degrees
+        // in steps of 1 degree
+        myservo.write(pos);              // tell servo to go to position in variable 'pos'
+        delay(15);                       // waits 15ms for the servo to reach the position
+      }
+      for (pos = 180; pos >= 0; pos -= 1) 
+      { // goes from 180 degrees to 0 degrees
+        myservo.write(pos);              // tell servo to go to position in variable 'pos'
+        delay(15);                       // waits 15ms for the servo to reach the position
+      }
+      temperature = 1.0/(log(R/R0)/B+1/298.15)-273.15;
+      
+      Serial.print("temperature = ");
+      Serial.println(temperature);
+      delay(100);
+    }
+  delay(100);
+}
