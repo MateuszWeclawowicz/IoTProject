@@ -1,8 +1,19 @@
 // Demo code for Grove - Temperature Sensor V1.1/1.2
 // Loovee @ 2015-8-26
+/* Servo Sweep
+ by BARRAGAN <http://barraganstudio.com>
+ This example code is in the public domain.
+ 
+ modified 8 Nov 2013
+ by Scott Fitzgerald
+ modified 21 Mar 2022
+ by Mateusz Weclawowicz
+ https://arduino.cc/en/Tutorial/Sweep
+*/
 #include <Servo.h>
-Servo myservo;
-int pos = 0; 
+Servo myservo;// create servo object to control a servo
+// twelve servo objects can be created on most boards
+int pos = 0; // variable to store the servo position
 #include <math.h>
 
 
@@ -24,7 +35,7 @@ void setup()
 {
   
   Serial.begin(9600);
-  myservo.attach(5);
+  myservo.attach(5); // attaches the servo on pin 5 to the servo object
     
 }
  
@@ -40,7 +51,7 @@ void loop()
 
   Serial.print("temperature = ");
   Serial.println(temperature);
-    if(temperature >= 25)
+    if(temperature >= 25) //once temperature is above 25 degrees the servo starts spinning
     {
       
       for (pos = 0; pos <= 180; pos += 1) 
