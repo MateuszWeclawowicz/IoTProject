@@ -1,3 +1,4 @@
+@ -1,75 +0,0 @@
 // Demo code for Grove - Temperature Sensor V1.1/1.2
 // Loovee @ 2015-8-26
 /* Servo Sweep
